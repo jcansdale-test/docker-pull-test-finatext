@@ -1,0 +1,19 @@
+env:
+  DOMAIN: docker.pkg.github.com
+  IMAGE: docker.pkg.github.com/finatext/docker-images/yq:2.9
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        try: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker login ${{ env.DOMAIN }} -u token --password-stdin <<< ${{ secrets.READ_PACKAGES_TOKEN }}
+      - run: docker pull ${{ env.IMAGE }}
